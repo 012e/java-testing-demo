@@ -1,0 +1,50 @@
+name: Java CI with Maven and JDK 21
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        # Uses a recent version of the checkout action
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        # Uses a recent version of the setup-java action
+        uses: actions/setup-java@v4
+        with:
+          # Specifies Java 21
+          java-version: '21'
+          # Specifies the Java distribution (Temurin/Adoptium is a common choice)
+          distribution: 'temurin'
+          # Enables Maven dependency caching for faster subsequent builds
+          cache: 'maven'
+
+      - name: Build and Run Tests with Maven
+        # The 'verify' phase includes compiling, running unit tests, and passing checks
+        # -B (Batch Mode) is recommended for CI/CD environments
+        # --update-snapshots forces a check for newer snapshot dependencies
+        run: mvn --batch-mode --update-snapshots verify
+
+        # --- Optional: Uncomment the steps below to package the JAR/WAR and upload it as an artifact ---
+
+        # - name: Package application
+        #   # The 'package' phase creates the distributable artifact (e.g., JAR/WAR)
+        #   run: mvn --batch-mode package -DskipTests
+
+    # - name: Upload Artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     # Name the artifact
+    #     name: package-artifact
+    #     # Specify the path to the artifacts (Maven typically puts them in 'target/')
+    #     path: target/*.jar # Adjust if you have a WAR or different packaging
+    #     # Retain the artifact for a certain duration (e.g., 5 days)
+    #     retention-days: 5
