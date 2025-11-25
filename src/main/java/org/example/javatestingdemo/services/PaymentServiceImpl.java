@@ -50,6 +50,10 @@ public class PaymentServiceImpl implements PaymentService {
         );
         repository.save(transaction);
 
+        if (true) {
+            throw new RuntimeException("testing");
+        }
+
         // 4. Send notification
         notificationService.sendEmail(
                 request.getCustomerEmail(),
