@@ -28,9 +28,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     public PaymentResult processPayment(PaymentRequest request) throws PaymentException {
-        if (true) {
-            throw new RuntimeException("haha");
-        }
         // 1. Validate request
         if (request.getAmount() <= 0) {
             throw new InvalidPaymentException("Amount must be positive");
