@@ -22,4 +22,4 @@ jobs:
           cache: 'maven'
 
       - name: Build and Run Tests with Maven
-        run: mvn --batch-mode -DargLine="" clean test
+        run: mvn --batch-mode clean test
